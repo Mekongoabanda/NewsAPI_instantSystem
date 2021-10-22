@@ -18,7 +18,9 @@ Vous pouvez accéder au site officiel ici -> [News API official site](https://ne
 
 ### CHOIX DES TECHNOLOGIES : 
 
-Le langage de programmation utilisé est **kotlin** (à 100%) comme exigé. La bibliothèque utilisée pour la gestion des **REST API** est **retrofit 2** car elle est non seulement l'une des plus populaire mais celle que je maîtrise le mieux. Bien évidemment pour la gestion des images j'ai opté pour Glide ( même si Picasso je l'utilise beaucoup). Glide car, il permet également la gestion des images animées. Concernant l'UX design j'ai été pour [**ADOBE XD**](https://www.adobe.com/fr/products/xd.html) car avant de développer il est plus convenable d'avoir une maquette de ce que l'on doit developper
+Le langage de programmation utilisé est **kotlin** (à 100%) comme exigé. La bibliothèque utilisée pour la gestion des **REST API** est **retrofit 2** car elle est non seulement l'une des plus populaire mais celle que je maîtrise le mieux. Bien évidemment pour la gestion des images j'ai opté pour Glide ( même si Picasso je l'utilise beaucoup). Glide car, il permet également la gestion des images animées. Concernant l'UX design j'ai été pour [**ADOBE XD**](https://www.adobe.com/fr/products/xd.html) car avant de développer il est plus convenable d'avoir une maquette de ce que l'on doit developper. 
+Pour gérer mes tâches, j'ai utilisé comme outils de gestion de projet MeisterTask également basé sur de l'agilité, avec un tableau de style KANBAN : [MeisterTask Offical Site](https://www.meistertask.com/pages/fr/find-out-why/)
+
 
 ### PLANNING DU TRAVAIL
 
