@@ -8,6 +8,6 @@ import retrofit2.http.GET
 
 interface NewsApiInterface{
 
-    @GET("/v2/everything?q=bitcoin&apiKey=0bf5b909bced4b80ad1669e78754b254")
+    @GET("/v2/top-headlines?language=fr&pageSize=50&apiKey=0bf5b909bced4b80ad1669e78754b254")
     fun getAllNewsList(): Call<NewsResponse> // return response call
 }

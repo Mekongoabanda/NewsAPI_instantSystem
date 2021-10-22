@@ -38,6 +38,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    //---------------------- 1 ------------------------------------
     //initialisation of our UiViews
     private fun setupUI() {
 
@@ -46,25 +47,29 @@ class MainActivity : AppCompatActivity() {
         progressbar = findViewById(R.id.progressbar) as ProgressBar
 
     }
+    //-------------------------------------------------------------
 
+
+    //------------------- 2 ---------------------------------------
     //RecyclerView init
     private fun setupRecyclerView() {
         recyclerView!!.setHasFixedSize(true)
-        //Initialisation de notre layout manager (vertical direction)
+        //Initialisation of our (vertical direction)
         mLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         recyclerView!!.layoutManager = mLayoutManager
     }
+    //---------------------------------------------------------------
 
+    //------------------- 3 -----------------------------------------
     //SHOWING of new calling API REST and the list return buy our adapter class
     private fun showNews() {
-
+        //We call our method getNewData that will return us
         getNewData { news: List<New> ->
-            mNewAdapter = NewsAdapter(news)
-            recyclerView!!.adapter = mNewAdapter
-            mNewAdapter!!.notifyDataSetChanged()
-            progressbar!!.visibility  = View.INVISIBLE
-
-            countArticle!!.text = "Everything (" + (news.size.toString()) + ")"
+            mNewAdapter = NewsAdapter(news) // we initialize our adapter by passing the list which will contain the news as a parameter
+            recyclerView!!.adapter = mNewAdapter // adapter initialized above become adpater of our recyclerView
+            mNewAdapter!!.notifyDataSetChanged() // update recyclerView adapter when have any changes
+            progressbar!!.visibility  = View.INVISIBLE // When News recyclerView is update, the progress bar become INVISIBLE
+            countArticle!!.text = "Everything (" + (news.size.toString()) + ")" //Number of elements showed
 
 
         }
@@ -72,6 +77,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    //In this method we will initialise our API service and get the response of our News REQUEST
     private fun getNewData(callback: (List<New>) -> Unit ){
 
         val apiService = NewsApiService.getInstance().create(NewsApiInterface::class.java)
@@ -81,27 +87,29 @@ class MainActivity : AppCompatActivity() {
         //We send the request @GET in NewsApiInterface.kt calling the method getAllNewList()
         ApiToCall = apiService.getAllNewsList()
 
-            ApiToCall.enqueue(object : Callback<NewsResponse> {
-                override fun onResponse(call: Call<NewsResponse>, response: Response<NewsResponse>) {
+        //Listener of response returned launching the request
+        ApiToCall.enqueue(object : Callback<NewsResponse> {
+            override fun onResponse(call: Call<NewsResponse>, response: Response<NewsResponse>) {
 
-                    try {
-                        //On récupère va récupérer le resultat
-                        return callback(response.body()!!.news)
-                    }catch (e : Exception){
-                        Toast.makeText(this@MainActivity, e.message, Toast.LENGTH_LONG).show()
-                    }
+                try {
+                    //On récupère va récupérer le resultat
+                    return callback(response.body()!!.news)
+                }catch (e : Exception){
+                    Toast.makeText(this@MainActivity, e.message, Toast.LENGTH_LONG).show()
                 }
+            }
 
-                override fun onFailure(call: Call<NewsResponse>, t: Throwable) {
+            override fun onFailure(call: Call<NewsResponse>, t: Throwable) { //request lost
 
-                    Toast.makeText(this@MainActivity, t.message, Toast.LENGTH_LONG).show()
-                }
+                Toast.makeText(this@MainActivity, t.message, Toast.LENGTH_LONG).show()
+            }
 
 
-            })
+        })
 
 
 
 
     }
+    //---------------------------------------------------------------
 }

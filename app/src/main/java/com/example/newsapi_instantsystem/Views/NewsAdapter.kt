@@ -1,5 +1,6 @@
 package com.example.newsapi_instantsystem.Views
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -12,12 +13,15 @@ import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.newsapi_instantsystem.R
 import com.example.newsapi_instantsystem.models.New
 import java.net.URI
+
+// ADAPTER OF NEW RECYCLER VIEW IN MainActivity.kt
 
 internal class NewsAdapter(private val mNewsList : List<New>) : RecyclerView.Adapter<NewsAdapter.NewViewHolder>(){
 
@@ -27,7 +31,7 @@ internal class NewsAdapter(private val mNewsList : List<New>) : RecyclerView.Ada
 
      override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewViewHolder {
 
-         return if (viewType == DEFAULT_VIEW ){
+         return if (viewType == DEFAULT_VIEW ){ //We call the news_item.XML (default_view)
              val v = LayoutInflater.from(parent.context).inflate(R.layout.news_item, parent, false)
              NewViewHolder(v)
 
@@ -38,6 +42,7 @@ internal class NewsAdapter(private val mNewsList : List<New>) : RecyclerView.Ada
          }
      }
 
+    // -------- This method permite us to init our widget (widget of news_item.XML)
     inner class NewViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         var secondPartLayout : RelativeLayout? = null //Container of visisble element with default view (Image, title, author, publish_at)
@@ -77,14 +82,26 @@ internal class NewsAdapter(private val mNewsList : List<New>) : RecyclerView.Ada
 
     }
 
+    // There we can edit each view. to get position of certain view, we can use "psotion" parameter
      override fun onBindViewHolder(holder: NewViewHolder, position: Int) {
 
+         // the part that contain description and link must be invisible
          holder.secondPartLayout!!.visibility = View.GONE
          holder.layoutblue!!.visibility = View.VISIBLE
 
          //Current new
          val currentNew = mNewsList[position]
+        //Chargement de notre ressource d'animation
+        val myanim = AnimationUtils.loadAnimation(holder.cardGeneral!!.context, R.anim.mytransition)
 
+        //elements that are null as value are in red
+        emptyViewAppareance(holder.titleArticle!!)
+        emptyViewAppareance(holder.authorArticle!!)
+        emptyViewAppareance(holder.dateArticle!!)
+        emptyViewAppareance(holder.descriptionArticle!!)
+        emptyViewAppareance(holder.linkArticle!!)
+
+         // We pass the title, author, date, description, link and image (get from our API request)
          holder.titleArticle!!.text = currentNew.title
          holder.authorArticle!!.text = "Auteur : " + currentNew.author
          holder.dateArticle!!.text = "Publié le :" + currentNew.publishedAt
@@ -93,15 +110,17 @@ internal class NewsAdapter(private val mNewsList : List<New>) : RecyclerView.Ada
          holder.textID!!.text = (position + 1).toString()
 
          Glide.with(holder.gif_click!!.context).asGif().load(R.drawable.giphy).into(holder.gif_click!!)
+        //Image of article
          Glide.with(holder.imageArticle!!.context).load(currentNew.urlToImage).centerCrop().into(holder.imageArticle!!)
+         holder.imageArticle!!.startAnimation(myanim)
 
+        //When we click on a view, the description and link must be appear in bottom of this one
          holder.cardGeneral!!.setOnClickListener(object : View.OnClickListener {
 
              override fun onClick(view: View?) {
                  if (holder.secondPartLayout!!.isVisible){
 
-                     //Chargement de notre ressource d'animation
-                     val myanim = AnimationUtils.loadAnimation(holder.cardGeneral!!.context, R.anim.mytransition_gone)
+
                      holder.secondPartLayout!!.startAnimation(myanim)
 
                      holder.secondPartLayout!!.visibility = View.GONE
@@ -109,8 +128,7 @@ internal class NewsAdapter(private val mNewsList : List<New>) : RecyclerView.Ada
 
 
                  }else {
-                     //Chargement de notre ressource d'animation
-                     val myanim = AnimationUtils.loadAnimation(holder.cardGeneral!!.context, R.anim.mytransition)
+
                      holder.secondPartLayout!!.startAnimation(myanim)
                      holder.secondPartLayout!!.visibility = View.VISIBLE
                  }
@@ -118,10 +136,11 @@ internal class NewsAdapter(private val mNewsList : List<New>) : RecyclerView.Ada
 
          })
 
+         //When we click on the link we can open it on browser
          holder.linkArticle!!.setOnClickListener(object : View.OnClickListener {
 
              override fun onClick(view: View?) {
-
+                 // call method to Parse Url String to URI and open it
                  goToUrl(holder.linkArticle!!.text.toString(), holder.linkArticle!!.context)
 
 
@@ -137,11 +156,21 @@ internal class NewsAdapter(private val mNewsList : List<New>) : RecyclerView.Ada
          return mNewsList.size
      }
 
+    // METHOD Parse Url String to URI and open it, take string link and context in parameter
     fun goToUrl(link : String, ctx: Context){
 
         var uri : Uri = Uri.parse(link)
         var intent = Intent(Intent.ACTION_VIEW, uri)
         ctx.startActivity(intent)
+    }
+
+    @SuppressLint("ResourceAsColor")
+    fun emptyViewAppareance(view : TextView?){
+
+        if( view!!.text.equals("null")){
+
+            view.setTextColor(ContextCompat.getColor(view.context, R.color.red_sang))
+        }
     }
 
 
