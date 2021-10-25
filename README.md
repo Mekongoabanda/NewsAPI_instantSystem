@@ -40,7 +40,7 @@ Pour gérer mes tâches, j'ai utilisé comme outils de gestion de projet Meister
 ### PROBLEME RENCONTRES
 
 - J'ai voulu afficher la liste de tous les articles en français mais une erreur est retournée(https://newsapi.org/docs/endpoints/everything). Nous demandant d'indiquer  plutôt un des 04 types de paramètres suivants : q, qInTitle, sources, domains . Pourtant "language=fr" est aussi un paramètre que l'on peut indiquer. ce qui signifie qu'on peut juste à ce niveau indiquer en français des articles ayant été filtrées (soit par domaines, par sources, par mot clé, etc) et donc pas TOUS les articles en français sans filtrage conformément à la documentation.
-- Du coup, pour afficher tous les articles en français (top headline) sans filtre j'ai utilisé cette requête : https://newsapi.org/v2/top-headlines?language=fr&pageSize=50&apiKey=0bf5b909bced4b80ad1669e78754b254 . Par contre dans un vrai projet j'aurais signalé le soucis que j'ai rencontré que ce soit côté PO ou developpeur afin de trouver la solution ou la bonne information
+- Du coup, pour afficher tous les articles en français (top headline) sans filtre j'ai utilisé cette requête : https://newsapi.org/v2/top-headlines?language=fr&pageSize=50&apiKey=your_api_key . Par contre dans un vrai projet j'aurais signalé le soucis que j'ai rencontré que ce soit côté PO ou developpeur afin de trouver la solution ou la bonne information
 
 
 ## ⏱ Somme toute, j'ai réellement pris entre **7-8h de temps** pour effectuer ce travail (assez simple dans l'ensemble)
